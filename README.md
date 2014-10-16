@@ -31,10 +31,10 @@ The company has an old middleware system "gluing" all subsystems together. The t
 
 1. The ERP system generates large batch file containing thousands of messages.
 2. A middleware preprocessor parses and splits batch file into single messages that are sent into a router queue.
-3. A middleware router analyses each message from the queue and perform an action according the message type:
+3. A middleware router analyses each message from the queue and performs an action according the message type:
   * If it is a mail message it will be transfered to the mail subsystem that invokes the *motion* script.
   * If it is an internet message the corresponding subsystem takes it and invokes *incognito* rest-service.
-  * The digital tv messages will be processed by DIGITV subsystems that transforms them into conax binary format
+  * The digital tv messages will be processed by DIGITV subsystem that transforms them into conax binary format
   and saves into specified directory in file system.
 4. Each subsystems report processing results into the common ERP Message queue.
   
