@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="OutgoingResult" targetNamespace="http://gepardec.com/sy_poc/wsdl/outgoing_result" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://gepardec.com/sy_poc/wsdl/outgoing_result" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://gepardec.com/sy_poc/xml/message_response_1_0" version="1.0">
+<xs:element name="message">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="service">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="action">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="data">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="order_list" type="xs:string"/>
+                          <xs:element name="status" type="xs:string"/>
+                          <xs:element name="error_timestamp" type="xs:string"/>
+                          <xs:element name="error_desc" type="xs:string"/>
+                          <xs:element name="country" type="xs:string"/>
+                          <xs:element name="nofsmartcards" type="xs:byte"/>
+                          <xs:element name="priority" type="xs:string"/>
+                          <xs:element name="product_id" type="xs:string"/>
+                          <xs:element name="subscription_end" type="xs:long"/>
+                          <xs:element name="subscription_start" type="xs:long"/>
+                          <xs:element name="smartcard" type="xs:string"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://gepardec.com/sy_poc/xml/message_response_1_0" xmlns:tns="http://gepardec.com/sy_poc/wsdl/outgoing_result" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://gepardec.com/sy_poc/wsdl/outgoing_result">
+  <xsd:import namespace="http://gepardec.com/sy_poc/xml/message_response_1_0"/>
+  <xsd:element name="send" type="tns:send"/>
+  <xsd:complexType name="send">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" ref="ns0:message"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="send">
+    <wsdl:part name="parameters" element="tns:send">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OutgoingResultPortType">
+    <wsdl:operation name="send">
+      <wsdl:input name="send" message="tns:send">
+    </wsdl:input>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OutgoingResultSoapBinding" type="tns:OutgoingResultPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="send">
+      <soap:operation soapAction="send" style="document"/>
+      <wsdl:input name="send">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OutgoingResult">
+    <wsdl:port name="OutgoingResultPort" binding="tns:OutgoingResultSoapBinding">
+      <soap:address location="http://localhost:8080/sy-poc-common/OutgoingResult"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

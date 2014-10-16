@@ -1,0 +1,31 @@
+Schritte:
+
+1) Eine XML-Detei mit Address-Muster erstellen.
+2) Auf http://www.freeformatter.com/xsd-generator.html Schema generieren
+3) Auf utilities-online.info/xsdvalidation Schema überprüfen
+4) Mit dem Tool xjc -p package_name xsd_file Java-Klassen generieren
+5) Konstante hinzufügen
+	public static final String SERVICE_DIGITV="digitv";
+	public static final String SERVICE_INTERNET="internet";
+	public static final String SERVICE_MAIL="mail";
+
+5) Java-Interface für die Operation erstellen.
+6) Von Interface WSDL generieren
+
+7) RegisterOrderService erstellen (wsdl+soap)
+8) RegisterOrderServiceProcessComponent erstellen(BPMN+Java Interface)
+9) 7+8 verbinden, JAVA transformer + Validator hinzufügen
+
+10) Im Prozess/Properties/Impl/Operation: registerOrder als START_PROCESS hinzufügen
+11) Map input : message.content -> incomingOrder
+12) Im Prozess: interface RegisterOrderService hinzufügen; in Defenitions Order und Address, CheckAddress hinzufügen; in DataItem: incomingOrder, incomingAddress, outgoingCheckAddress
+13) Script task erstellen und incomingAddress extrahieren + Alle benötigten Klassen in Imports hinzufügen
+14) External service task erstellen :
+	- Service Task erstellen
+	- Für BPMN Service Java/Interface+Operation hinzufügen in Prozess/Properties + inMessage + outMessage
+	- Vars incomingCheckAddress und checkedAddress hinzufügen
+	- BPMN Service Camel konfigurieren + script onEnd
+	- External Service Reference erstellen und mit BPMN via java -- wsdl verbinden (+transformer JAXB)
+15) Verzweiger hinzufügen
+	- Not Available Script und Error Stop Event Erstellen.(+ Error type in Definitions hinzufügen)
+	- Available script erstellen

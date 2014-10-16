@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="OutgoingMessage" targetNamespace="http://gepardec.com/sy_poc/wsdl/outgoing_message" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://gepardec.com/sy_poc/wsdl/outgoing_message" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://gepardec.com/sy_poc/xml/message_request_1_0" version="1.0">
+<xs:element name="message">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="service">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="action">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="data">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="country" type="xs:string"/>
+                          <xs:element name="order_no" type="xs:string"/>
+                          <xs:element name="product_id" type="xs:int"/>
+                          <xs:element name="subscription_start" type="xs:string"/>
+                          <xs:element name="subscription_end" type="xs:string"/>
+                          <xs:element name="priority" type="xs:string"/>
+                          <xs:element name="nofsmartcards" type="xs:byte"/>
+                          <xs:element name="smartcard_list" type="xs:string"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://gepardec.com/sy_poc/xml/message_request_1_0" xmlns:tns="http://gepardec.com/sy_poc/wsdl/outgoing_message" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://gepardec.com/sy_poc/wsdl/outgoing_message">
+  <xsd:import namespace="http://gepardec.com/sy_poc/xml/message_request_1_0"/>
+  <xsd:element name="message_request_1_0" type="tns:message_request_1_0"/>
+  <xsd:complexType name="message_request_1_0">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" ref="ns0:message"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="message_request_1_0Response" type="tns:message_request_1_0Response"/>
+  <xsd:complexType name="message_request_1_0Response">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="string" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="message_request_1_0">
+    <wsdl:part name="parameters" element="tns:message_request_1_0">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="message_request_1_0Response">
+    <wsdl:part name="parameters" element="tns:message_request_1_0Response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OutgoingMessagePortType">
+    <wsdl:operation name="message_request_1_0">
+      <wsdl:input name="message_request_1_0" message="tns:message_request_1_0">
+    </wsdl:input>
+      <wsdl:output name="message_request_1_0Response" message="tns:message_request_1_0Response">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OutgoingMessageSoapBinding" type="tns:OutgoingMessagePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="message_request_1_0">
+      <soap:operation soapAction="message_request_1_0" style="document"/>
+      <wsdl:input name="message_request_1_0">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="message_request_1_0Response">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OutgoingMessage">
+    <wsdl:port name="OutgoingMessagePort" binding="tns:OutgoingMessageSoapBinding">
+      <soap:address location="http://localhost:8080/sy-poc-common/OutgoingMessage"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

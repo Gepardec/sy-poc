@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message name="feedback" xmlns="http://gepardec.com/sy_poc/xml/message_response_1_0">
+	<service name="digitv">
+		<action name="activate">
+			<data>
+				<order_list>852502</order_list>
+				<status>OK</status>
+				<error_timestamp>OK</error_timestamp>
+				<error_desc>Success</error_desc>
+				<country>AT</country>
+				<nofsmartcards>1</nofsmartcards>
+				<priority>EMM</priority>
+				<product_id>00000106</product_id>
+				<subscription_end>201406302359</subscription_end>
+				<subscription_start>201406010000</subscription_start>
+				<!-- smartcard_list -->
+				<smartcard>01359116803</smartcard>
+				<!-- /smartcard_list -->
+			</data>
+		</action>
+	</service>
+</message>

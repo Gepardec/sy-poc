@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sy:switchyard xmlns:bean="urn:switchyard-component-bean:config:1.1" xmlns:bpm="urn:switchyard-component-bpm:config:1.1" xmlns:camel="urn:switchyard-component-camel:config:1.1" xmlns:file="urn:switchyard-component-camel-file:config:1.1" xmlns:jms="urn:switchyard-component-camel-jms:config:1.1" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:soap="urn:switchyard-component-soap:config:1.1" xmlns:sy="urn:switchyard-config:switchyard:1.1" xmlns:transform="urn:switchyard-config:transform:1.1" xmlns:validate="urn:switchyard-config:validate:1.1" name="fsw-poc-conax-simulation" targetNamespace="http://liwest.at/fsw-poc/1.0/messagetype">
+  <sca:composite name="fsw-poc-conax-simulation" targetNamespace="http://liwest.at/fsw-poc/1.0/messagetype">
+    <sca:service name="ConaxSimulation" promote="ConaxSimulationRoute/ProcessMessage">
+      <sca:interface.java interface="com.gepardec.sy_poc.simulation.conax.SimulationMessageProcessor"/>
+      <file:binding.file name="ProcessMessageFile">
+        <file:contextMapper class="com.gepardec.sy_poc.simulation.conax.ConaxContextMapper"/>
+        <file:directory>${sy.poc.conax.dir}/input</file:directory>
+        <file:consume/>
+      </file:binding.file>
+    </sca:service>
+    <sca:component name="ConaxSimulationRoute">
+      <camel:implementation.camel>
+        <camel:java class="com.gepardec.sy_poc.simulation.conax.ConaxSimulationRoute"/>
+      </camel:implementation.camel>
+      <sca:service name="ProcessMessage">
+        <sca:interface.java interface="com.gepardec.sy_poc.simulation.conax.SimulationMessageProcessor"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="IncomingFile" promote="IncomingSimulationRoute/IncomingFile">
+      <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+      <file:binding.file name="file1">
+        <file:directory>${sy.poc.simulation.dir}/input</file:directory>
+        <file:consume/>
+      </file:binding.file>
+    </sca:service>
+    <sca:reference name="IncomingQueue" multiplicity="0..1" promote="IncomingSimulationRoute/IncomingQueue">
+      <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+      <jms:binding.jms name="jms1">
+        <jms:queue>incomingQueue</jms:queue>
+        <jms:connectionFactory>#ConnectionFactory</jms:connectionFactory>
+      </jms:binding.jms>
+    </sca:reference>
+    <sca:component name="IncomingSimulationRoute">
+      <camel:implementation.camel>
+        <camel:java class="com.gepardec.sy_poc.simulation.conax.IncomingSimulationRoute"/>
+      </camel:implementation.camel>
+      <sca:service name="IncomingFile">
+        <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+      </sca:service>
+      <sca:reference name="IncomingQueue">
+        <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+      </sca:reference>
+    </sca:component>
+    <sca:service name="ResultQueue" promote="ResultRoute/OutgoingQueue">
+      <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+      <jms:binding.jms name="resultQueue">
+        <jms:queue>resultQueue</jms:queue>
+        <jms:connectionFactory>#ConnectionFactory</jms:connectionFactory>
+      </jms:binding.jms>
+    </sca:service>
+    <sca:reference name="ResultFile" multiplicity="0..1" promote="ResultRoute/OutgoingFile">
+      <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+      <file:binding.file name="result">
+        <file:directory>${sy.poc.simulation.dir}/result</file:directory>
+        <file:produce/>
+      </file:binding.file>
+    </sca:reference>
+    <sca:component name="ResultRoute">
+      <camel:implementation.camel>
+        <camel:java class="com.gepardec.sy_poc.simulation.conax.OutgoingRoute"/>
+      </camel:implementation.camel>
+      <sca:service name="OutgoingQueue">
+        <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+      </sca:service>
+      <sca:reference name="OutgoingFile">
+        <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+      </sca:reference>
+    </sca:component>
+  </sca:composite>
+  <sy:transforms/>
+  <sy:validates/>
+</sy:switchyard>

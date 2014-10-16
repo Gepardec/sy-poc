@@ -1,0 +1,15 @@
+Schritte:
+
+1) Eine XML-Detei mit Address-Muster erstellen.
+2) Auf http://www.freeformatter.com/xsd-generator.html Schema generieren
+3) Auf utilities-online.info/xsdvalidation Schema überprüfen
+4) Mit dem Tool xjc -p package_name xsd_file Java-Klassen generieren
+
+5) Java-Interface für die Operation erstellen.
+6) Von Interface WSDL generieren
+
+7) Service(WSDL+SOAP) erstellen
+8) Component(Bean+Java Interface) erstellen
+9) Verbinden 7 und 8
+10) Validator und Transformer(Java/String/Jaxb marschalling) erstellen
+11) Zum Bean Logik hinzufügen
