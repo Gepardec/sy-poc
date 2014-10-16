@@ -15,6 +15,35 @@ using JBoss Switchyard as an integration platform.
 
 ## Scenario
 
+A company Z is a large telecom provider. Its services include internet and tv over cable. An internal ERP
+system generates a lot of provisioning messages (about 500.000) every month. Provisioning messages are for example
+new product or services orders over web shop and selfcare center, products cancellations and configurations, activation requests, reports etc.
+The company operates also different internal systems to process the provisioning messages: 
+
+* **Conax** for processing of messages related to the digital tv services.
+* **Incognito** for processing of messages related to the internet services.
+* **Motion** for processing of messages related to the mail services.
+
+These systems have different interfaces. *Incognito* provides a REST-service that can be called via HTTP.
+*Motion* is implemented as a shell script. *Conax* listens a directory in file system and processes files appearing there.
+
+The company has an old middleware system "gluing" all subsystems together. The typical processing scenario can be presented as following:
+
+1. The ERP system generates large batch file containing thousands of messages.
+2. A middleware preprocessor parses and splits batch file into single messages that are sent into a router queue.
+3. A middleware router analyses each message from the queue and perform an action according the message type:
+  * If it is a mail message it will be transfered to the mail subsystem that invokes the *motion* script.
+  * If it is an internet message the corresponding subsystem takes it and invokes *incognito* rest-service.
+  * The digital tv messages will be processed by DIGITV subsystems that transforms them into conax binary format
+  and saves into specified directory in file system.
+4. Each subsystems report processing results into the common ERP Message queue.
+  
+As the middleware became obsolete the company decides to migrate it to a modern platform. Solution must be
+inexpensive and easy to use and maintain. New system should not contain a lot of code and must be easy to configure. As a result
+the "JBoss Switchyard" was selected as a lightweight service providing middleware layer to integrate these systems.
+Switchyard is able to ideally fullfil such requirements as transparent data transformation, effective parsing and
+routing. An additional benefit is that the system can be easily scaled to support more services.
+
 ## Installation and configuration
 
 * Download Wildfly 8.0.0.Final zip package [here](http://wildfly.org/downloads/)
@@ -88,7 +117,7 @@ This information can be useful for first run:
 * Default batch file with two messages is `sy-poc-main/src/test/resources/batch_request.xml`
 * By default the result of execution will be saved under `$PROJECT_DIR/tmp/simulation/result`
 
-To control JBoss instance use <instance name> command in shell (switchyard) by default.
+To control JBoss instance use *instance name* command in shell (switchyard by default).
 
 For example 
 
