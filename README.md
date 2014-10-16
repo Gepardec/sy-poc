@@ -21,7 +21,8 @@ using JBoss Switchyard as an integration platform.
 2. Download JBoss Switchyard 2.0.0.Alpha zip package [here](http://switchyard.jboss.org/downloads)
 3. Clone project's git repository `git clone https://github.com/Gepardec/sy-poc.git`
 4. Execute sy-poc-install/sy-poc-install.sh script.
-Script format:```
+Script format:
+```
 sy-poc-install.sh path/to/wildfly-zip path/to/switchyard-zip [instance name] [port offset] [installation dir] [jboss major varsion]
   where
   path/to/wildfly-zip		is the path to the downloaded Wildfly 8.0.0.Final zip package
@@ -34,7 +35,8 @@ sy-poc-install.sh path/to/wildfly-zip path/to/switchyard-zip [instance name] [po
 Example: ./sy-poc-install.sh ~/Downloads/wildfly-8.0.0.Final.zip ~/Downloads/switchyard-2.0.0.Alpha2-WildFly.zip switchyard 0 ~/jbosses/jboss-switchyard 8
 ```
 5. Adjust environment configuration example.env to the environment
-Variables to be configured:```
+Variables to be configured:
+```
   PROJECT_HOME				directory where project was cloned to
   JBOSS_HOME				directory where JBoss instance is installed
   ADMIN_PORT				9999 for AS 7, 9990 for Wildfly
@@ -53,7 +55,8 @@ The JBoss instance is now ready.
 ## Build and deployment
 
 For build and deployment of the application the sy-poc-build.sh script is provided.
-Script format:```
+Script format:
+```
 /sy-poc-build.sh --env=<Path to env> [--all] [--sy-common] [--sy-main] [--sy-simulation] [--configure] [--skip-tests] [--help]
   --env						path to environment configuration file (definition of JBOSS_HOME, ADMIN_PORT, MOTION, CONAX_HOME ...)
   --all						perform build and deployment of all subprojects
