@@ -83,10 +83,10 @@ Example: `./sy-poc-build.sh --env=default.env --sy-main --skip-tests`
 This information can be useful for first run:
 
 * To trigger application it is sufficient to copy a batch file into batch directory.
-* By default the batch directory is > $PROJECT_DIR/tmp/batch
-* Default batch file with a single message is > sy-poc-main/src/test/resources/single_request.xml
-* Default batch file with two messages is > sy-poc-main/src/test/resources/batch_request.xml
-* By default the result of execution will be saved under > $PROJECT_DIR/tmp/simulation/result
+* By default the batch directory is `$PROJECT_DIR/tmp/batch`
+* Default batch file with a single message is `sy-poc-main/src/test/resources/single_request.xml`
+* Default batch file with two messages is `sy-poc-main/src/test/resources/batch_request.xml`
+* By default the result of execution will be saved under `$PROJECT_DIR/tmp/simulation/result`
 
 To control JBoss instance use <instance name> command in shell (switchyard) by default.
 
