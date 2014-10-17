@@ -22,7 +22,6 @@ public class ProcessMessageRoute extends RouteBuilder {
 		// TODO Auto-generated method stub
 		from(ServiceDefinitions.EP_SWITCHYARD + ServiceDefinitions.SVC_INCOMING_MESSAGE).log(
 				"Received message for 'IncomingMessage' : ${body}")
-				.convertBodyTo(Message.class)
 				.choice().when().simple(getSimpleExpressionFor(ServiceDefinitions.MessageType.TYPE_INTERNET))
 				.to(SVC_CALL_INTERNET, SVC_CALL_RESULT)
 				
