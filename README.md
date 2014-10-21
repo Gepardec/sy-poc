@@ -5,6 +5,7 @@
 * Wildfly 8.0.0.Final
 * JBoss Switchyard 2.0.0.Alpha
 * Unix-style OS. Tested on Linux (Fedora 20)
+* Eclipse Keppler
 
 We used JBoss Switchyard 1.1.0.Final (maven dependencies) for implementation and Unit Tests and Switchyard 2.0.0.Alpha2 as a target platform.
 
@@ -44,7 +45,21 @@ the "JBoss Switchyard" was selected as a lightweight service providing middlewar
 Switchyard is able to ideally fullfil such requirements as transparent data transformation, effective parsing and
 routing. An additional benefit is that the system can be easily scaled to support more services.
 
-## Installation and configuration
+## Installation and configuration of IDE
+
+Eclipse Kepler can be used as an IDE for Development of SY-Applications.
+Additionally Jboss Tools Integration Stack (JBTIS) is necessary for using of graphical Editor for Switchyard:
+
+1. In Eclipse open: Help – Install New Softwate – Add
+2. Add a new entry with the name e.g. "SY-Dev" and the url "http://download.jboss.org/jbosstools/updates/stable/kepler/integration-stack/aggregate/4.1.4.Final/"
+3. Check components: Switchyard, Switchyard BPEL Support, Swithyard BPM Support
+4. Install selected plugins
+5. Restart Eclipse
+6. Open Window – Preferences – XML – XML Files – Validation. Sure that "Honour all XML schema locations" is **unchecked**.
+
+Eclipse is ready.
+
+## Installation and configuration of Switchyard
 
 * Download Wildfly 8.0.0.Final zip package [here](http://wildfly.org/downloads/)
 * Download JBoss Switchyard 2.0.0.Alpha zip package [here](http://switchyard.jboss.org/downloads)
