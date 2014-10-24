@@ -2,10 +2,8 @@ package com.gepardec.sy_poc.main;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +17,7 @@ import org.switchyard.test.SwitchYardTestKit;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
-		CDIMixIn.class, HornetQMixIn.class })
+		CDIMixIn.class, HornetQMixIn.class})
 public class ConaxServiceTest extends AbstractProvisioningTest {
 
 	private SwitchYardTestKit testKit;

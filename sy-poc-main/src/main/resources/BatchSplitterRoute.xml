@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+  <route>
+    <from uri="switchyard://BatchSplitter"/>
+    <log message="BatchSplitter - message received: ${body}"/>
+    <split>
+    	<tokenize token="message" xml="true" inheritNamespaceTagName="messages" />
+    	<log message="After Split: ${body}"></log>
+    	<to uri="switchyard://SingleMessage" />
+    </split>
+  </route>
+</routes>
