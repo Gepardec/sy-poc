@@ -60,8 +60,8 @@ public class MotionBindingTest extends AbstractProvisioningTest {
 		setupMotionSkript();
 
 		service.sendInOnly(TestMessages.generateMailMessage());
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
+		
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, 
 				testKit.readResourceString("expectedMotionResult.xml"));
 	}
 

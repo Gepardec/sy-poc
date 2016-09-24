@@ -29,9 +29,7 @@ public class IncognitoServiceTest extends AbstractProvisioningTest {
 		
 		service.sendInOnly(TestMessages.generateInternetMessage());
 
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
-				result);
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, result);
 	}
 	
 	/**
@@ -44,8 +42,6 @@ public class IncognitoServiceTest extends AbstractProvisioningTest {
 		
 		service.sendInOnly(TestMessages.generateInternetMessage());
 
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
-				result);
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, result);
 	}
 }

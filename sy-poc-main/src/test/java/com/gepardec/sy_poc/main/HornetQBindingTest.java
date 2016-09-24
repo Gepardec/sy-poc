@@ -45,12 +45,11 @@ public class HornetQBindingTest extends AbstractProvisioningTest {
 		
 		copyToDir("ps852502.emm.esbDone", CONAX_OK_DIR);
 
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, 
 				testKit.readResourceString("ps852502.emm.result.xml"));
 	}
 
-	public void sendMessage(String fileName, String queueName) throws Exception {
+	private void sendMessage(String fileName, String queueName) throws Exception {
 
 		Session session = hornetQMixIn.createJMSSession();
 		final MessageProducer producer = session.createProducer(HornetQMixIn
