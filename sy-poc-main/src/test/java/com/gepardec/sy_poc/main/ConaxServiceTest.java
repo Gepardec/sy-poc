@@ -14,20 +14,16 @@ import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
 import org.switchyard.test.SwitchYardTestKit;
+import org.switchyard.test.mixins.PropertyMixIn;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
-		CDIMixIn.class, HornetQMixIn.class})
+		CDIMixIn.class, PropertyMixIn.class, HornetQMixIn.class})
 public class ConaxServiceTest extends AbstractProvisioningTest {
 
 	private SwitchYardTestKit testKit;
 	@ServiceOperation(PROVISIONING_SERVICE_NAME)
 	private Invoker service;
-
-	@BeforeClass
-	public static void before() throws IOException {
-		setupConfig();
-	}
 
 	@Test
 	public void whenIncomingTvMessageThenTransformedConaxFormatInTvMockService()
@@ -40,7 +36,7 @@ public class ConaxServiceTest extends AbstractProvisioningTest {
 
 		service.sendInOnly(TestMessages.generateTvMessage());
 
-		checkMessages().mail(0).internet(0).tv(1).result(0);
+		checkMessageCount().mail(0).internet(0).tv(1).result(0);
 
 		assertEquals("Service Response", CONAX_STRING, tvContent());
 	}
@@ -53,7 +49,7 @@ public class ConaxServiceTest extends AbstractProvisioningTest {
 		copyToDir("ps852502.emm.esbDone", CONAX_OK_DIR);
 
 		Thread.sleep(3000);
-		checkMessages().result(1);
+		checkMessageCount().result(1);
 		
 		com.gepardec.sy_poc.xml.message_response_1_0.Message meassage = resultContentMessage();
 		assertEquals("Response name", "feedback", meassage.getName());

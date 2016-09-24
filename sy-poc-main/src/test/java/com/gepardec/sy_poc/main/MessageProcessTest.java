@@ -14,12 +14,13 @@ import org.switchyard.test.Invoker;
 import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
+import org.switchyard.test.mixins.PropertyMixIn;
 
 import com.gepardec.sy_poc.xml.message_request_1_0.Message;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
-		CDIMixIn.class, HornetQMixIn.class, HTTPMixIn.class })
+		CDIMixIn.class, PropertyMixIn.class, HornetQMixIn.class, HTTPMixIn.class })
 public class MessageProcessTest extends AbstractProvisioningTest{
 
 	@ServiceOperation(PROVISIONING_SERVICE_NAME)
@@ -40,7 +41,7 @@ public class MessageProcessTest extends AbstractProvisioningTest{
 		
 		service.sendInOnly(TestMessages.generateInternetMessage());
 
-		checkMessages().mail(0).internet(1).tv(0).result(1);
+		checkMessageCount().mail(0).internet(1).tv(0).result(1);
 		
 		assertTrue("Incognito wird aufgerufen", internetContent().contains("INET00001"));
 		assertTrue("Result Service wird aufgerufen", resultContent().contains("INET00001"));
@@ -53,7 +54,7 @@ public class MessageProcessTest extends AbstractProvisioningTest{
 		Message message = TestMessages.generateMailMessage();
 		service.sendInOnly(message);
 
-		checkMessages().mail(1).internet(0).tv(0).result(1);
+		checkMessageCount().mail(1).internet(0).tv(0).result(1);
 		
 		assertTrue("Motion wird aufgerufen", mailContent().contains("IDMail OK"));
 		assertTrue("Result Service wird aufgerufen", resultContent().contains("IDMail OK"));
@@ -65,7 +66,7 @@ public class MessageProcessTest extends AbstractProvisioningTest{
 
 		service.sendInOnly(TestMessages.generateTvMessage());
 
-		checkMessages().mail(0).internet(0).tv(1).result(1);
+		checkMessageCount().mail(0).internet(0).tv(1).result(1);
 		
 	}
 	

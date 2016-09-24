@@ -14,12 +14,13 @@ import org.switchyard.test.Invoker;
 import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
+import org.switchyard.test.mixins.PropertyMixIn;
 
 import com.gepardec.sy_poc.main.ServiceDefinitions;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
-		CDIMixIn.class, HornetQMixIn.class })
+		CDIMixIn.class, PropertyMixIn.class, HornetQMixIn.class })
 public class MotionBindingTest extends AbstractProvisioningTest {
 
 	@ServiceOperation(PROVISIONING_SERVICE_NAME)
@@ -35,7 +36,7 @@ public class MotionBindingTest extends AbstractProvisioningTest {
 
 		service.sendInOnly(TestMessages.generateMailMessage());
 
-		checkMessages().mail(1).internet(0).tv(0).result(1);
+		checkMessageCount().mail(1).internet(0).tv(0).result(1);
 
 		assertEquals("Service Response", RESPONSE, resultContent());
 	}
@@ -52,7 +53,7 @@ public class MotionBindingTest extends AbstractProvisioningTest {
 
 		service.sendInOnly(TestMessages.generateMailMessage());
 
-		checkMessages().result(1);
+		checkMessageCount().result(1);
 		assertEquals("Service Response", RESPONSE, resultContent());
 	}
 

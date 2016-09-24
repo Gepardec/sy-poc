@@ -11,12 +11,13 @@ import org.switchyard.test.Invoker;
 import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
+import org.switchyard.test.mixins.PropertyMixIn;
 
 import com.gepardec.sy_poc.main.ServiceDefinitions;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
-		CDIMixIn.class, HornetQMixIn.class }, scanners = BeanSwitchYardScanner.class)
+		CDIMixIn.class, PropertyMixIn.class, HornetQMixIn.class }, scanners = BeanSwitchYardScanner.class)
 public class BatchSplitterTest extends AbstractProvisioningTest {
 
 	@ServiceOperation(ServiceDefinitions.SVC_BATCH_SPLITTER)
@@ -29,7 +30,7 @@ public class BatchSplitterTest extends AbstractProvisioningTest {
 
 		service.sendInOnly(testKit.readResourceString("batch_request.xml"));
 
-		checkMessages().singleMessage(2);
+		checkMessageCount().singleMessage(2);
 		assertTrue("Erster Eintrag", singleMessageContent().contains("852502"));
 	}
 
@@ -39,8 +40,7 @@ public class BatchSplitterTest extends AbstractProvisioningTest {
 
 		copyToDir("batch_request.xml", BATCH_DIR);
 
-		Thread.sleep(3000);
-		checkMessages().singleMessage(2);
+		waitFor().singleMessage().andCheckMessageCount().singleMessage(2);
 
 	}
 
@@ -51,9 +51,9 @@ public class BatchSplitterTest extends AbstractProvisioningTest {
 		mockServices().mail().tv().internet().result();
 
 		service.sendInOnly(testKit.readResourceString("batch_request.xml"));
-		Thread.sleep(3000);
 
-		checkMessages().mail(0).tv(2).internet(0).result(0);
+		waitFor().tv().andCheckMessageCount()
+			.mail(0).tv(2).internet(0).result(0);
 	}
 
 }

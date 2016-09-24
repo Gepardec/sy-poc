@@ -19,12 +19,13 @@ import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
 import org.switchyard.test.SwitchYardTestKit;
+import org.switchyard.test.mixins.PropertyMixIn;
 
 import com.gepardec.sy_poc.main.ServiceDefinitions;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
-		CDIMixIn.class, HornetQMixIn.class })
+		CDIMixIn.class, PropertyMixIn.class, HornetQMixIn.class })
 public class HornetQBindingTest extends AbstractProvisioningTest {
 
 	private SwitchYardTestKit testKit;
@@ -41,7 +42,7 @@ public class HornetQBindingTest extends AbstractProvisioningTest {
 
 		Thread.sleep(3000);
 
-		checkMessages().tv(1).internet(0).mail(0).result(0);
+		checkMessageCount().tv(1).internet(0).mail(0).result(0);
 		assertEquals("Service Response",
 				testKit.readResourceString("conax_request2.txt"), tvContent());
 	}

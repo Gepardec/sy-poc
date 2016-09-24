@@ -14,11 +14,12 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.BeforeClass;
 import org.switchyard.Exchange;
 import org.switchyard.component.test.mixins.hornetq.HornetQMixIn;
+import org.switchyard.test.BeforeDeploy;
 import org.switchyard.test.MockHandler;
 import org.switchyard.test.SwitchYardTestKit;
+import org.switchyard.test.mixins.PropertyMixIn;
 
 
 abstract public class AbstractProvisioningTest {
@@ -34,25 +35,20 @@ abstract public class AbstractProvisioningTest {
 	protected MockHandler incomingService;
 	
 	protected static final String PROVISIONING_SERVICE_NAME = "IncomingMessage";
-	public static final String SWITCHYARD_XML = "target/switchyard.xml";
+	public static final String SWITCHYARD_XML = "src/main/resources/META-INF/switchyard.xml";
 	
 	public static final String CONAX_BASE_DIR = "target/conax";
 	public static final String CONAX_OK_DIR = CONAX_BASE_DIR + "/ok";
 	public static final String BATCH_DIR = "target/batch";
-
-
-	public static void setupConfig() throws IOException {
-		String config = FileUtils.readFileToString(new File("src/main/resources/META-INF/switchyard.xml"));
-		config = config
-				.replace("${sy.poc.batch.dir}", BATCH_DIR)
-				.replace("${sy.poc.conax.dir}", CONAX_BASE_DIR);
-		FileUtils.writeStringToFile(new File(SWITCHYARD_XML), config);
-	}
-
-	@BeforeClass
-	public static void before() throws IOException{
-			setupConfig();
-	}
+	   
+	protected PropertyMixIn propMixIn;
+	   
+	
+	@BeforeDeploy
+    public void setTestProperties() {
+        propMixIn.set("sy.poc.batch.dir", BATCH_DIR);
+        propMixIn.set("sy.poc.conax.dir", CONAX_BASE_DIR);
+    }
 
 	public void printMessages(MockHandler mockSvc, String txt) {
 		for (Exchange exchange : mockSvc.getMessages()) {
@@ -160,7 +156,7 @@ abstract public class AbstractProvisioningTest {
 		}		
 	}
 
-	protected MessageCompare checkMessages() {
+	protected MessageCompare checkMessageCount() {
 		return new MessageCompare();
 	}
 	
@@ -192,6 +188,46 @@ abstract public class AbstractProvisioningTest {
 			return this;
 		}
 		
+	}
+	
+	protected MessageWait waitFor() {
+		return new MessageWait();
+	}
+	protected class MessageWait{
+
+		public MessageWait mail() {
+			mailService.waitForOKMessage();
+			return this;
+		}
+
+		public MessageWait internet() {
+			internetService.waitForOKMessage();
+			return this;
+		}
+		public MessageWait tv() {
+			tvService.waitForOKMessage();
+			return this;
+		}
+		public MessageWait singleMessage() {
+			singleMessageService.waitForOKMessage();
+			return this;
+		}
+		public MessageWait result() {
+			resultService.waitForOKMessage();
+			return this;
+		}
+		public MessageWait incoming() {
+			incomingService.waitForOKMessage();
+			return this;
+		}
+		public MessageCompare andCheckMessageCount(){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			return checkMessageCount();
+		}
 	}
 
 }
