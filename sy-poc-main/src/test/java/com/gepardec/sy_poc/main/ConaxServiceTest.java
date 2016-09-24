@@ -2,9 +2,6 @@ package com.gepardec.sy_poc.main;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.switchyard.component.test.mixins.cdi.CDIMixIn;
@@ -48,8 +45,7 @@ public class ConaxServiceTest extends AbstractProvisioningTest {
 		
 		copyToDir("ps852502.emm.esbDone", CONAX_OK_DIR);
 
-		Thread.sleep(3000);
-		checkMessageCount().result(1);
+		waitFor().result();
 		
 		com.gepardec.sy_poc.xml.message_response_1_0.Message meassage = resultContentMessage();
 		assertEquals("Response name", "feedback", meassage.getName());
