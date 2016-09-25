@@ -122,17 +122,17 @@ echo "==== START BUILD AND DEPLOY ===="
 if [ "$CONFIGURE" == "true" ]
 then
 	echo "Trying to remove queue \"incomingQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=incomingQueue:remove"
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue remove --queue-address=incomingQueue"
 
 	echo "Trying to install queue \"incomingQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=incomingQueue:add(entries=[\"/queue/incomingQueue\"])"
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue add --queue-address=incomingQueue --entries=[/queue/incomingQueue]"
 	checkSuccess
 
 	echo "Trying to remove queue \"resultQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=resultQueue:remove"	
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue remove --queue-address=resultQueue"	
 	
 	echo "Trying to install queue \"resultQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=resultQueue:add(entries=[\"/queue/resultQueue\"])"
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue add --queue-address=resultQueue --entries=[/queue/resultQueue]"
 	checkSuccess
 
 	setSystemProperty "sy.poc.motion" $MOTION
