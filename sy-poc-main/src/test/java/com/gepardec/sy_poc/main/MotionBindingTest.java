@@ -1,11 +1,10 @@
 package com.gepardec.sy_poc.main;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.net.URISyntaxException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.switchyard.component.test.mixins.cdi.CDIMixIn;
@@ -15,8 +14,6 @@ import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
 import org.switchyard.test.mixins.PropertyMixIn;
-
-import com.gepardec.sy_poc.main.ServiceDefinitions;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
@@ -63,8 +60,8 @@ public class MotionBindingTest extends AbstractProvisioningTest {
 		setupMotionSkript();
 
 		service.sendInOnly(TestMessages.generateMailMessage());
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
+		
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, 
 				testKit.readResourceString("expectedMotionResult.xml"));
 	}
 

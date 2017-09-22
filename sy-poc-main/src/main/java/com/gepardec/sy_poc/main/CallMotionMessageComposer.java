@@ -25,7 +25,7 @@ public class CallMotionMessageComposer extends
 		org.apache.camel.Message sourceMessage = source.getMessage();
 
 		// map content
-		Message message = exchange.getMessage();
+		Message message = exchange.getMessage().copy();
 		QName msgType = getMessageType(exchange);
 		Object content;
 		if (msgType == null) {

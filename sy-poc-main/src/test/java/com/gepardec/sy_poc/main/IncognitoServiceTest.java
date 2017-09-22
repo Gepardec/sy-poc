@@ -9,7 +9,6 @@ import org.switchyard.test.Invoker;
 import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
-import org.switchyard.test.SwitchYardTestKit;
 import org.switchyard.test.mixins.PropertyMixIn;
 
 @RunWith(SwitchYardRunner.class)
@@ -17,7 +16,6 @@ import org.switchyard.test.mixins.PropertyMixIn;
 		CDIMixIn.class, PropertyMixIn.class, HornetQMixIn.class })
 public class IncognitoServiceTest extends AbstractProvisioningTest {
 
-	private SwitchYardTestKit testKit;
 	@ServiceOperation(PROVISIONING_SERVICE_NAME)
 	private Invoker service;
 
@@ -31,9 +29,7 @@ public class IncognitoServiceTest extends AbstractProvisioningTest {
 		
 		service.sendInOnly(TestMessages.generateInternetMessage());
 
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
-				result);
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, result);
 	}
 	
 	/**
@@ -46,8 +42,6 @@ public class IncognitoServiceTest extends AbstractProvisioningTest {
 		
 		service.sendInOnly(TestMessages.generateInternetMessage());
 
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
-				result);
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, result);
 	}
 }

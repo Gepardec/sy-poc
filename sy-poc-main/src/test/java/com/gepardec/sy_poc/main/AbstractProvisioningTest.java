@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.jms.BytesMessage;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
@@ -229,5 +230,12 @@ abstract public class AbstractProvisioningTest {
 			return checkMessageCount();
 		}
 	}
+	
+	protected void checkQueue(String queue, String messageContent) throws JMSException, Exception {
+		hornetQMixIn.readJMSMessageAndTestString(
+				receiveMessage(queue), 
+				messageContent);
+	}
+
 
 }

@@ -2,13 +2,9 @@ package com.gepardec.sy_poc.main;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.jms.BytesMessage;
 import javax.jms.Message;
-import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +16,6 @@ import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
 import org.switchyard.test.SwitchYardTestKit;
 import org.switchyard.test.mixins.PropertyMixIn;
-
-import com.gepardec.sy_poc.main.ServiceDefinitions;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = AbstractProvisioningTest.SWITCHYARD_XML, mixins = {
@@ -40,9 +34,8 @@ public class HornetQBindingTest extends AbstractProvisioningTest {
 
 		sendMessage("message_request_1_0.xml", ServiceDefinitions.INCOMING_QUEUE);
 
-		Thread.sleep(3000);
-
-		checkMessageCount().tv(1).internet(0).mail(0).result(0);
+		waitFor().tv().andCheckMessageCount()
+			.tv(1).internet(0).mail(0).result(0);
 		assertEquals("Service Response",
 				testKit.readResourceString("conax_request2.txt"), tvContent());
 	}
@@ -52,12 +45,11 @@ public class HornetQBindingTest extends AbstractProvisioningTest {
 		
 		copyToDir("ps852502.emm.esbDone", CONAX_OK_DIR);
 
-		hornetQMixIn.readJMSMessageAndTestString(
-				receiveMessage(ServiceDefinitions.RESULT_QUEUE), 
+		checkQueue(ServiceDefinitions.RESULT_QUEUE, 
 				testKit.readResourceString("ps852502.emm.result.xml"));
 	}
 
-	public void sendMessage(String fileName, String queueName) throws Exception {
+	private void sendMessage(String fileName, String queueName) throws Exception {
 
 		Session session = hornetQMixIn.createJMSSession();
 		final MessageProducer producer = session.createProducer(HornetQMixIn

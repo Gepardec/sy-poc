@@ -6,10 +6,10 @@
 # modify, copy, or redistribute it subject to the terms and conditions
 # of the GNU General Public License Version 3.
 #
-# 
+#
 # Allgemeins Start - Stop Script für JBoss7
 # Spezielle Start/Stop-Skripts sollten nur ein link auf dieses
-# Script sein. 
+# Script sein.
 # Konfiguration durch $HOME/.${instanzName}rc
 
 if [ x$JBOSS_INSTANZ_NAME = x ]; then
@@ -53,7 +53,7 @@ STOP_TIMEOUT=${JBOSS_STOP_TIMEOUT:-"$TIMEOUT"}
 
 export JBOSS_HOME
 export JBOSS_INSTANZ_NAME=$instanzName
- 
+
 if [ X$DEPLOY_SUBDIR = X ]; then
 	DEPLOY_SUBDIR=""
 fi
@@ -105,11 +105,11 @@ export JBOSS_PIDFILE
 export LAUNCH_JBOSS_IN_BACKGROUND=true
 admin="$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=${BIND_ADDRSS-localhost}:$JBOSS_ADMIN_PORT"
 moduleDir="$JBOSS_HOME/modules"
- 
+
 
 action="$1"
 deployment="$2"
- 
+
 ###########################
 # getting pid from pid.lock
 ###########################
@@ -212,14 +212,14 @@ configure() {
 
 	cd $f_curr_dir
 }
- 
+
 ###########################
 # check for running server
 ###########################
 is_running() {
 	get_pid > /dev/null
 }
- 
+
 ###########################
 # check server for state running
 ###########################
@@ -230,7 +230,7 @@ check_started() {
 	else
 		state=$($admin -c ":read-attribute(name=server-state)"  2>/dev/null | grep result | cut -d'"' -f4 2>/dev/null)
 	fi
-	test  X$state = Xrunning 
+	test  X$state = Xrunning
 }
 
 ###########################
@@ -248,10 +248,10 @@ wait_for_admin_app() {
     while [ ${cnt} -le 30 ]; do
 		check_admin_app && return 0
         let cnt=${cnt}+1
-        echo "INFO: [$(date +'%Y-%m-%d %H:%M:%S')] Admin application not available at port ${JBOSS_ADMIN_PORT}" 
+        echo "INFO: [$(date +'%Y-%m-%d %H:%M:%S')] Admin application not available at port ${JBOSS_ADMIN_PORT}"
         sleep 1
     done
-    echo "ERROR: Admin application not available at port ${JBOSS_ADMIN_PORT}" 
+    echo "ERROR: Admin application not available at port ${JBOSS_ADMIN_PORT}"
 	exit 1
 }
 
@@ -260,14 +260,14 @@ wait_for_admin_app() {
 ################################################
 #                   MAIN
 ################################################
- 
+
 case "$action" in
   start)
     if is_running; then
         echo "$displayName is already running. PID: " `get_pid`
         exit 0
     fi
- 
+
     echo "$start"
     echo -n "Starting $displayName "
     if ! [ -d $logdir ]; then
@@ -279,13 +279,13 @@ case "$action" in
     $start > $out 2>&1 &
     cnt=$START_TIMEOUT
     sleep 1
-    while [ $cnt -gt 0 ] && ! check_started $out 
+    while [ $cnt -gt 0 ] && ! check_started $out
     do
         let cnt=$cnt-1
         echo -n "."
         sleep 1
     done
-    echo 
+    echo
     if is_running; then
 		if check_started $out; then
 			wait_for_admin_app  ### It seems that sometimes the admin-port is not open immediately ###
@@ -311,14 +311,14 @@ case "$action" in
             echo -n "."
             sleep 1
         done
-    	echo 
+    	echo
         if is_running; then
             echo "Error shutting down $displayName, killing"
             kill -KILL `get_pid`
         else
             echo "$displayName stopped"
         fi
-		rm -f $JBOSS_PIDFILE 
+		rm -f $JBOSS_PIDFILE
     fi
   ;;
   kill)
@@ -427,7 +427,7 @@ case "$action" in
   *)
     cat >&2 <<EOF
     Usage: $0 <command> [file]
- 
+
     where <command> is one of:
         start       - start $displayName
         stop        - stop $displayName (kill -TERM)
@@ -436,6 +436,7 @@ case "$action" in
         status      - check wether $displayName is running
         admin       - start jboss-cli.sh and connect to $displayName
         deploy f    - deploy file f with jboss-cli.
+				undeploy n  - undeploys app n with jboss-cli.
         deployments - list current deployments.
         configure f - configure server with file or directory f. Use >$0 configure< for more help.
         run f       - same as configure. Intended to run scripts within the specific environment.
@@ -446,4 +447,3 @@ case "$action" in
 EOF
     exit 1
 esac
-

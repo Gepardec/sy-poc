@@ -27,7 +27,7 @@ function setSystemProperty {
 	if [ "$PROPERTY_VALUE"!="" ]
 	then
 		echo "Trying to setup $PROPERTY_NAME=$PROPERTY_VALUE system property"
-		$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/system-property=$PROPERTY_NAME:remove"	
+		$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/system-property=$PROPERTY_NAME:remove"
 		$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/system-property=$PROPERTY_NAME:add(value=$PROPERTY_VALUE)"
 	fi
 }
@@ -88,7 +88,7 @@ case "$1" in
                 *)
 printHelp
 ;;
-                        
+
         esac
 done
 
@@ -122,17 +122,17 @@ echo "==== START BUILD AND DEPLOY ===="
 if [ "$CONFIGURE" == "true" ]
 then
 	echo "Trying to remove queue \"incomingQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=incomingQueue:remove"
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue remove --queue-address=incomingQueue"
 
 	echo "Trying to install queue \"incomingQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=incomingQueue:add(entries=[\"/queue/incomingQueue\"])"
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue add --queue-address=incomingQueue --entries=[/queue/incomingQueue]"
 	checkSuccess
 
 	echo "Trying to remove queue \"resultQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=resultQueue:remove"	
-	
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue remove --queue-address=resultQueue"
+
 	echo "Trying to install queue \"resultQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/subsystem=messaging/hornetq-server=default/jms-queue=resultQueue:add(entries=[\"/queue/resultQueue\"])"
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue add --queue-address=resultQueue --entries=[/queue/resultQueue]"
 	checkSuccess
 
 	setSystemProperty "sy.poc.motion" $MOTION
@@ -156,12 +156,12 @@ then
                 mkdir -p $CONAX_HOME/output
                 checkSuccess
 
-		setSystemProperty "sy.poc.conax.dir" $CONAX_HOME		
+		setSystemProperty "sy.poc.conax.dir" $CONAX_HOME
 	fi
 
 	if [ "$SIMULATION_DIR" != "" ]
 	then
-		setSystemProperty "sy.poc.simulation.dir" $SIMULATION_DIR	
+		setSystemProperty "sy.poc.simulation.dir" $SIMULATION_DIR
 	fi
 
 	if [ "$BATCH_DIR" != "" ]
@@ -180,28 +180,21 @@ CURDIR=$(pwd)
 cd $BASEDIR
 BASEDIR=`pwd`
 
-##########################
-#
-# Build common
-#
-##########################
-if [ "$sycommon" == "true" ] || [ "$ALL" == "true" ]
+# Build the whole project, before deploying a part of it
+if [ "$sysimulation" == "true" ] || [ "$symain" == "true" ] || [ "$ALL" == "true" ]
 then
-	cd sy-poc-common
-	maven
+		maven
 fi
 
 ##########################
 #
-# Build sy simulation
+# Deploy sy simulation
 #
 ##########################
 if [ "$sysimulation" == "true" ] || [ "$ALL" == "true" ]
-then	
-	cd $BASEDIR
-	cd sy-poc-simulation
-	maven
-	
+then
+	cd $BASEDIR/sy-poc-simulation
+
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-simulation-0.0.1-SNAPSHOT.war"
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="deploy target/sy-poc-simulation-0.0.1-SNAPSHOT.war"
 	checkSuccess
@@ -209,15 +202,13 @@ fi
 
 ##########################
 #
-# Build sy main
+# Deploy sy main
 #
 ##########################
 if [ "$symain" == "true" ] || [ "$ALL" == "true" ]
 then
-	cd $BASEDIR
-	cd sy-poc-main
-	maven
-	
+	cd $BASEDIR/sy-poc-main
+
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-main-0.0.1-SNAPSHOT.war"
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="deploy target/sy-poc-main-0.0.1-SNAPSHOT.war"
 	checkSuccess

@@ -26,7 +26,7 @@ usage: $PRG [-h] [-i name] [-j jboss_home] [-b dir] [-o port_offset] [-z jboss_z
 Options:
     i name: Name of jboss instance ($INSTANZ)
     j jboss_home: JBOSS_HOME ($JB_HOME)
-    b bin: Directory where the link to jboss7 script will be created. 
+    b bin: Directory where the link to jboss7 script will be created.
            Should be in PATH. ($BIN)
     o port_offset: Port offset for this instance ($PORT_OFFSET)
     z jboss_zip: JBoss package zip-file.  ($JBossPackage) Must exist!
@@ -96,8 +96,8 @@ if [ ! -f "$JBossPackage" ]; then
 	exit 1
 fi
 
-echo "JBOSS_SKRIPT is at $JBOSS_SKRIPT" 
-echo "RC_FILE is at $RC_FILE" 
+echo "JBOSS_SKRIPT is at $JBOSS_SKRIPT"
+echo "RC_FILE is at $RC_FILE"
 echo
 echo Use:
 echo 	Instance: $INSTANZ
