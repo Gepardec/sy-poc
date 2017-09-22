@@ -180,22 +180,9 @@ CURDIR=$(pwd)
 cd $BASEDIR
 BASEDIR=`pwd`
 
-##########################
-#
-# Build common
-#
-##########################
-if [ "$sycommon" == "true" ] || [ "$ALL" == "true" ]
-then
-	cd sy-poc-common
-	maven
-fi
-
-
 # Build the whole application, before deploying it
 if [ "$sysimulation" == "true" ] || [ "$symain" == "true" ] || [ "$ALL" == "true" ]
 then
-		cd $BASEDIR
 		maven
 fi
 
@@ -206,7 +193,7 @@ fi
 ##########################
 if [ "$sysimulation" == "true" ] || [ "$ALL" == "true" ]
 then
-	cd sy-poc-simulation
+	cd $BASEDIR/sy-poc-simulation
 
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-simulation-0.0.1-SNAPSHOT.war"
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="deploy target/sy-poc-simulation-0.0.1-SNAPSHOT.war"
@@ -220,7 +207,7 @@ fi
 ##########################
 if [ "$symain" == "true" ] || [ "$ALL" == "true" ]
 then
-	cd sy-poc-main
+	cd $BASEDIR/sy-poc-main
 
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-main-0.0.1-SNAPSHOT.war"
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="deploy target/sy-poc-main-0.0.1-SNAPSHOT.war"
