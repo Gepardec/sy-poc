@@ -191,15 +191,21 @@ then
 	maven
 fi
 
+
+# Build the whole application, before deploying it
+if [ "$sysimulation" == "true" ] || [ "$symain" == "true" ] || [ "$ALL" == "true" ]
+then
+		cd $BASEDIR
+		maven
+fi
+
 ##########################
 #
-# Build sy simulation
+# Deploy sy simulation
 #
 ##########################
 if [ "$sysimulation" == "true" ] || [ "$ALL" == "true" ]
 then
-	cd $BASEDIR
-	maven
 	cd sy-poc-simulation
 
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-simulation-0.0.1-SNAPSHOT.war"
@@ -209,13 +215,11 @@ fi
 
 ##########################
 #
-# Build sy main
+# Deploy sy main
 #
 ##########################
 if [ "$symain" == "true" ] || [ "$ALL" == "true" ]
 then
-	cd $BASEDIR
-	maven
 	cd sy-poc-main
 
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-main-0.0.1-SNAPSHOT.war"
