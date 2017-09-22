@@ -27,7 +27,7 @@ function setSystemProperty {
 	if [ "$PROPERTY_VALUE"!="" ]
 	then
 		echo "Trying to setup $PROPERTY_NAME=$PROPERTY_VALUE system property"
-		$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/system-property=$PROPERTY_NAME:remove"	
+		$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/system-property=$PROPERTY_NAME:remove"
 		$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="/system-property=$PROPERTY_NAME:add(value=$PROPERTY_VALUE)"
 	fi
 }
@@ -88,7 +88,7 @@ case "$1" in
                 *)
 printHelp
 ;;
-                        
+
         esac
 done
 
@@ -129,8 +129,8 @@ then
 	checkSuccess
 
 	echo "Trying to remove queue \"resultQueue\""
-	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue remove --queue-address=resultQueue"	
-	
+	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue remove --queue-address=resultQueue"
+
 	echo "Trying to install queue \"resultQueue\""
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="jms-queue add --queue-address=resultQueue --entries=[/queue/resultQueue]"
 	checkSuccess
@@ -156,12 +156,12 @@ then
                 mkdir -p $CONAX_HOME/output
                 checkSuccess
 
-		setSystemProperty "sy.poc.conax.dir" $CONAX_HOME		
+		setSystemProperty "sy.poc.conax.dir" $CONAX_HOME
 	fi
 
 	if [ "$SIMULATION_DIR" != "" ]
 	then
-		setSystemProperty "sy.poc.simulation.dir" $SIMULATION_DIR	
+		setSystemProperty "sy.poc.simulation.dir" $SIMULATION_DIR
 	fi
 
 	if [ "$BATCH_DIR" != "" ]
@@ -197,11 +197,11 @@ fi
 #
 ##########################
 if [ "$sysimulation" == "true" ] || [ "$ALL" == "true" ]
-then	
+then
 	cd $BASEDIR
-	cd sy-poc-simulation
 	maven
-	
+	cd sy-poc-simulation
+
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-simulation-0.0.1-SNAPSHOT.war"
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="deploy target/sy-poc-simulation-0.0.1-SNAPSHOT.war"
 	checkSuccess
@@ -215,9 +215,9 @@ fi
 if [ "$symain" == "true" ] || [ "$ALL" == "true" ]
 then
 	cd $BASEDIR
-	cd sy-poc-main
 	maven
-	
+	cd sy-poc-main
+
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="undeploy sy-poc-main-0.0.1-SNAPSHOT.war"
 	$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=localhost:$ADMIN_PORT --command="deploy target/sy-poc-main-0.0.1-SNAPSHOT.war"
 	checkSuccess
