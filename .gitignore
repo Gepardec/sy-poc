@@ -9,8 +9,7 @@
 .project
 .metadata
 bin/**
-tmp/**
-tmp/**/*
+tmp/
 *.tmp
 *.bak
 *.swp
@@ -20,6 +19,7 @@ local.properties
 .settings/
 .loadpath
 .xml
+*.iml
 
 # External tool builders
 .externalToolBuilders/
@@ -27,4 +27,5 @@ local.properties
 # Locally stored "Eclipse launch configurations"
 *.launch
 .attach_pid*
+custom.env
 

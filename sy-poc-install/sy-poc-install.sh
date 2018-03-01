@@ -59,10 +59,11 @@ fi
 echo $INSTANZ
 
 #setup jbss
+echo "$JBSS_DIR/setup.sh -i $INSTANZ -z $1 -o $OFFSET -j $HOME_DIR -b $CUSTOM_BIN_DIR"
 $JBSS_DIR/setup.sh -i $INSTANZ -z $1 -o $OFFSET -j $HOME_DIR -b $CUSTOM_BIN_DIR
 
 #export switchyard zip
 export SWITCHYARD_ZIP=$2
 
 #configure jboss
-~/bin/$INSTANZ configure $CONFIG_DIR
+$CUSTOM_BIN_DIR/$INSTANZ configure $CONFIG_DIR
