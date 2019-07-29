@@ -180,7 +180,7 @@ CURDIR=$(pwd)
 cd $BASEDIR
 BASEDIR=`pwd`
 
-# Build the whole application, before deploying it
+# Build the whole project, before deploying a part of it
 if [ "$sysimulation" == "true" ] || [ "$symain" == "true" ] || [ "$ALL" == "true" ]
 then
 		maven

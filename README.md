@@ -2,12 +2,12 @@
 
 ## Prerequisites
 
-* Wildfly 8.0.0.Final
+* Wildfly 10.x.x.Final
 * JBoss Switchyard 2.0.0.Alpha
-* Unix-style OS. Tested on Linux (Fedora 20)
-* Eclipse Keppler
+* Unix-style OS. Tested on Linux (Fedora 27)
+* Eclipse or Intellij
 
-We used JBoss Switchyard 1.1.0.Final (maven dependencies) for implementation and Unit Tests and Switchyard 2.0.0.Alpha2 as a target platform.
+We used JBoss Switchyard 2.1.Final (maven dependencies) for implementation and Unit Tests and Switchyard 2.1.Final as a target platform.
 
 ## Purpose
 
@@ -61,7 +61,7 @@ Eclipse is ready.
 
 ## Installation and configuration of Switchyard
 
-* Download Wildfly 8.0.0.Final zip package [here](http://wildfly.org/downloads/)
+* Download Wildfly 10.x.x.Final zip package [here](http://wildfly.org/downloads/)
 * Download JBoss Switchyard 2.0.0.Alpha zip package [here](http://switchyard.jboss.org/downloads)
 * Clone project's git repository `git clone https://github.com/Gepardec/sy-poc.git`
 * Execute `sy-poc-install/sy-poc-install.sh` script.
@@ -69,14 +69,14 @@ Script format:
 ```
 sy-poc-install.sh path/to/wildfly-zip path/to/switchyard-zip [instance name] [port offset] [installation dir] [jboss major varsion]
   where
-  path/to/wildfly-zip		is the path to the downloaded Wildfly 8.0.0.Final zip package
+  path/to/wildfly-zip		is the path to the downloaded Wildfly 10.x.x.Final zip package
   path/to/switchyard-zip	is the path to the downloaded JBoss Switchyard 2.0.0.Alpha zip package
   instance					name name of JBoss instance that will be installed
   port offset				port offset for the JBoss instance to be installed
   installation dir			directory where JBoss instance will be installed
   jboss major version		major version of jboss package (7 for AS 7, 8 for Wildfly)
   
-Example: ./sy-poc-install.sh ~/Downloads/wildfly-8.0.0.Final.zip ~/Downloads/switchyard-2.0.0.Alpha2-WildFly.zip switchyard 0 ~/jbosses/jboss-switchyard 8
+Example: ./sy-poc-install.sh ${HOME}/Downloads/wildfly-10.x.x.Final.zip ${HOME}/Downloads/switchyard-2.0.0.Alpha2-WildFly.zip switchyard 0 ${HOME}/jbosses/jboss-switchyard 8
 ```
 * Adjust environment configuration example.env to your execution environment
 
@@ -110,7 +110,6 @@ Script format:
   --sy-<subproject name>:	perform build and deployment of corresponding subproject (common, main or simulation)
   --configure				perform necessary jboss and environment configuration steps
   --skip-tests				use maven with -DskipTests
-  --skip-tests				show help dialog
 ```
 
 Subsystems:

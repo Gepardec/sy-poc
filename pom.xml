@@ -1,164 +1,275 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.gepardec</groupId>
-	<artifactId>sy-poc</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Switchyard PoC</name>
-	<packaging>pom</packaging>
-	<properties>
-		<switchyard.version>2.1.0.Final</switchyard.version>
-		<camel.version>2.15.2</camel.version>
-	</properties>
-	<modules>
-		<module>sy-poc-common</module>
-		<module>sy-poc-main</module>
-		<module>sy-poc-simulation</module>
-		<module>sy-poc-install</module>
-	</modules>
-	<repositories>
-		<repository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.switchyard</groupId>
-				<artifactId>switchyard-api</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard</groupId>
-				<artifactId>switchyard-transform</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard</groupId>
-				<artifactId>switchyard-validate</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-bean</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-camel</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-soap</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard</groupId>
-				<artifactId>switchyard-plugin</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-exec</artifactId>
-				<version>${camel.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard</groupId>
-				<artifactId>switchyard-test</artifactId>
-				<version>${switchyard.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-test-mixin-http</artifactId>
-				<version>${switchyard.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-test-mixin-cdi</artifactId>
-				<version>${switchyard.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-bpm</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-camel-core</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-camel-jms</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-camel-file</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.gepardec</groupId>
+    <artifactId>sy-poc</artifactId>
+    <name>sy-poc</name>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-http</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.switchyard.components</groupId>
-				<artifactId>switchyard-component-test-mixin-hornetq</artifactId>
-				<version>${switchyard.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.11</version>
-				<scope>test</scope>
-			</dependency>
+    <properties>
+        <!-- Versions Plugin Dependencies -->
+        <version.plugin.compiler>3.5.1</version.plugin.compiler>
+        <version.plugin.dependency>2.10</version.plugin.dependency>
+        <version.plugin.enforcer>1.4.1</version.plugin.enforcer>
+        <version.plugin.surefire>2.19.1</version.plugin.surefire>
+        <version.plugin.build-helper>1.10</version.plugin.build-helper>
+        <version.plugin.jaxb2>2.3.1</version.plugin.jaxb2>
+        <version.plugin.war>2.6</version.plugin.war>
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.6.1</version>
-			</dependency>
+        <!-- Versions Dependencies -->
+        <version.switchyard>2.1.0.Final</version.switchyard>
+        <version.camel>2.15.2</version.camel>
+        <version.slf4j>1.7.10</version.slf4j>
+        <version.junit>4.12</version.junit>
+        <version.javaee-api>7.0</version.javaee-api>
+        <version.commons.io>1.3.2</version.commons.io>
+        <version.logback-classic>1.2.3</version.logback-classic>
 
-			<dependency>
-				<groupId>javax</groupId>
-				<artifactId>javaee-api</artifactId>
-				<version>6.0</version>
-				<scope>provided</scope>
-			</dependency>
+        <!-- Build Properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <downloadSources>true</downloadSources>
+        <targetJdk>${maven.compiler.target}</targetJdk>
+        <maven.min.version>3.0</maven.min.version>
+        <jdk.min.version>${maven.compiler.source}</jdk.min.version>
+    </properties>
 
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.0.13</version>
-				<scope>test</scope>
-			</dependency>
+    <!-- Modules -->
+    <modules>
+        <module>sy-poc-common</module>
+        <module>sy-poc-main</module>
+        <module>sy-poc-simulation</module>
+        <module>sy-poc-install</module>
+    </modules>
 
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>1.3.2</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<build>
-	</build>
+    <!-- Supported Dependencies -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Dependencies Spec -->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${version.javaee-api}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Dependencies Switchyard -->
+            <dependency>
+                <groupId>org.switchyard</groupId>
+                <artifactId>switchyard-bom</artifactId>
+                <version>${version.switchyard}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Dependencies Camel -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-exec</artifactId>
+                <version>${version.camel}</version>
+            </dependency>
+
+            <!-- Dependencies Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${version.logback-classic}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Dependencies Commons -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.commons.io}</version>
+            </dependency>
+
+            <!-- Dependencies Test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <!-- Supported Plugins -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.plugin.compiler}</version>
+                    <configuration>
+                        <showDeprecation>true</showDeprecation>
+                        <showWarnings>true</showWarnings>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <!-- Disable annotation processing via compiler plugin.
+                        <compilerArgument>-proc:none</compilerArgument>-->
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${version.plugin.dependency}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${version.plugin.enforcer}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${version.plugin.build-helper}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jaxb2-maven-plugin</artifactId>
+                    <version>${version.plugin.jaxb2}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>xjc</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <!-- xsd sources should always be placed in this directory -->
+                        <sources>
+                            <source>src/main/resources/xsd</source>
+                        </sources>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
+                        <clearOutputDir>true</clearOutputDir>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${version.plugin.war}</version>
+                </plugin>
+
+                <!-- Surefire Tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${version.plugin.surefire}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.switchyard</groupId>
+                    <artifactId>switchyard-plugin</artifactId>
+                    <version>${version.switchyard}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>configure</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- Build applicable to all modules -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-java-version</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <message>To build this project JDK ${jdk.min.version} (or
+                                        greater) is required. Please install it.
+                                    </message>
+                                    <version>${jdk.min.version}</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>enforce-maven-version</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <message>To build this project Maven ${maven.min.version} (or
+                                        greater) is required. Please install it.
+                                    </message>
+                                    <version>${maven.min.version}</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Necessary repositories -->
+    <repositories>
+        <!-- Should not be needed anymore
+          <repository>
+                    <id>jboss-public-repository-group</id>
+                    <name>JBoss Public Maven Repository Group</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </snapshots>
+                </repository>-->
+
+        <!-- New repository because switchyard-bom contains dependencies, which are not present in formerly used repository -->
+        <repository>
+            <id>redhat-techpreview-all-repository</id>
+            <name>Red Hat Tech Preview repository (all)</name>
+            <url>http://maven.repository.redhat.com/techpreview/all/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

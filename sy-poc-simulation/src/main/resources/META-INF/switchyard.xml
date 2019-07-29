@@ -18,14 +18,14 @@
       </sca:service>
     </sca:component>
     <sca:service name="IncomingFile" promote="IncomingSimulationRoute/IncomingFile">
-      <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+      <sca:interface.wsdl interface="wsdl/IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
       <file:binding.file name="file1">
         <file:directory>${sy.poc.simulation.dir}/input</file:directory>
         <file:consume/>
       </file:binding.file>
     </sca:service>
     <sca:reference name="IncomingQueue" multiplicity="0..1" promote="IncomingSimulationRoute/IncomingQueue">
-      <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+      <sca:interface.wsdl interface="wsdl/IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
       <jms:binding.jms name="jms1">
         <jms:queue>incomingQueue</jms:queue>
         <jms:connectionFactory>#ConnectionFactory</jms:connectionFactory>
@@ -36,21 +36,21 @@
         <camel:java class="com.gepardec.sy_poc.simulation.conax.IncomingSimulationRoute"/>
       </camel:implementation.camel>
       <sca:service name="IncomingFile">
-        <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+        <sca:interface.wsdl interface="wsdl/IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
       </sca:service>
       <sca:reference name="IncomingQueue">
-        <sca:interface.wsdl interface="IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
+        <sca:interface.wsdl interface="wsdl/IncomingMessage.wsdl#wsdl.porttype(IncomingMessagePortType)"/>
       </sca:reference>
     </sca:component>
     <sca:service name="ResultQueue" promote="ResultRoute/OutgoingQueue">
-      <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+      <sca:interface.wsdl interface="wsdl/OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
       <jms:binding.jms name="resultQueue">
         <jms:queue>resultQueue</jms:queue>
         <jms:connectionFactory>#ConnectionFactory</jms:connectionFactory>
       </jms:binding.jms>
     </sca:service>
     <sca:reference name="ResultFile" multiplicity="0..1" promote="ResultRoute/OutgoingFile">
-      <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+      <sca:interface.wsdl interface="wsdl/OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
       <file:binding.file name="result">
         <file:directory>${sy.poc.simulation.dir}/result</file:directory>
         <file:produce/>
@@ -61,10 +61,10 @@
         <camel:java class="com.gepardec.sy_poc.simulation.conax.OutgoingRoute"/>
       </camel:implementation.camel>
       <sca:service name="OutgoingQueue">
-        <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+        <sca:interface.wsdl interface="wsdl/OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
       </sca:service>
       <sca:reference name="OutgoingFile">
-        <sca:interface.wsdl interface="OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
+        <sca:interface.wsdl interface="wsdl/OutgoingResult.wsdl#wsdl.porttype(OutgoingResultPortType)"/>
       </sca:reference>
     </sca:component>
   </sca:composite>
